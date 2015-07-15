@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.JobAttributes;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,16 +17,20 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+/**
+ * 
+ * @author dinko.hodzic
+ *
+ */
 public class FlappyBlock extends JPanel implements ActionListener,
 		MouseListener, KeyListener {
 
@@ -54,12 +57,14 @@ public class FlappyBlock extends JPanel implements ActionListener,
 	private Rectangle t7;
 	private Rectangle t8;
 	private Rectangle t9;
-
+	
+	//Icon
+	private ImageIcon icon = new ImageIcon(FlappyBlock.class.getResource("/bit.png"));
+	
+	
 	// Images
 	private BufferedImage bird;
 	
-	private ImageIcon birdy;
-
 	private BufferedImage clouds;
 
 	private BufferedImage tree1;
@@ -85,10 +90,15 @@ public class FlappyBlock extends JPanel implements ActionListener,
 	private BufferedImage score;
 
 	// Sound files
-	private File die = new File("sounds/sfx_die.wav");
-	private File hit = new File("sounds/sfx_hit.wav");
-	private File point = new File("sounds/sfx_point.wav");
-	private File wing = new File("sounds/sfx_wing.wav");
+//	private File die = new File("sounds/sfx_die.wav");
+//	private File hit = new File("sounds/sfx_hit.wav");
+//	private File point = new File("sounds/sfx_point.wav");
+//	private File wing = new File("sounds/sfx_wing.wav");
+	
+	private String die = "/sfx_die.wav";
+	private String hit = "/sfx_hit.wav";
+	private String point = "/sfx_point.wav";
+	private String wing = "/sfx_wing.wav";
 
 	// Movements
 	private int moveY;
@@ -211,7 +221,7 @@ public class FlappyBlock extends JPanel implements ActionListener,
 			
 			score = ImageIO.read(ResLoader.load("SC.png"));
 			
-			birdy = new ImageIcon("Black_bird_64.png");
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -255,8 +265,8 @@ public class FlappyBlock extends JPanel implements ActionListener,
 		// Drawing the score
 		g.setColor(Color.WHITE);
 		g.drawImage(score, 10, 10, null);
-		g.setFont(new Font("Arial Black", Font.BOLD, 42));
-		g.drawString(counter+"", 140, 66);
+		g.setFont(new Font("Arial", Font.BOLD, 42));
+		g.drawString(counter+"", 138, 66);
 
 		// Drawing information before the player starts playing
 		if (started == false) {
@@ -281,10 +291,11 @@ public class FlappyBlock extends JPanel implements ActionListener,
 	 * 
 	 * @param sound
 	 */
-	private static void playSound(File sound) {
+	private static void playSound(String sound) {
 		try {
+			URL url = FlappyBlock.class.getResource(sound);
 			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(sound));
+			clip.open(AudioSystem.getAudioInputStream(url));
 			clip.start();
 
 			Thread.sleep(clip.getMicrosecondLength() / 100000);
@@ -301,7 +312,7 @@ public class FlappyBlock extends JPanel implements ActionListener,
 
 		int choice = JOptionPane.showOptionDialog(null, String.format(
 				"Your score is: %d\nDo you want to play again? \nOr see the soure code on Github.com", counter), "",
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, icon,
 				new String[]{"Yes","No","Github.com"}, null);
 		
 		
