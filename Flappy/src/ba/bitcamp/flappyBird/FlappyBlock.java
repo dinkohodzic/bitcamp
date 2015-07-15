@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -56,6 +57,8 @@ public class FlappyBlock extends JPanel implements ActionListener,
 
 	// Images
 	private BufferedImage bird;
+	
+	private ImageIcon birdy;
 
 	private BufferedImage clouds;
 
@@ -207,6 +210,8 @@ public class FlappyBlock extends JPanel implements ActionListener,
 			over = ImageIO.read(ResLoader.load("gameOver.png"));
 			
 			score = ImageIO.read(ResLoader.load("SC.png"));
+			
+			birdy = new ImageIcon("Black_bird_64.png");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -313,7 +318,9 @@ public class FlappyBlock extends JPanel implements ActionListener,
 
 		}else if(choice==JOptionPane.CANCEL_OPTION){
 			try {
-				Desktop.getDesktop().browse(new URI("http://klix.ba"));
+				Desktop.getDesktop().browse(new URI("https://github.com/dinkohodzic/bitcamp/tree/master/Flappy/src/ba/bitcamp/flappyBird"));
+				
+				System.exit(0);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
