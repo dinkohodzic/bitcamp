@@ -1,5 +1,6 @@
 package ba.bitcamp.flappyBird;
 
+
 import javax.swing.JFrame;
 
 public class Main extends JFrame {
@@ -15,11 +16,10 @@ public class Main extends JFrame {
 
 		// Setting up the frame
 		window.setContentPane(flappyblock);
-		window.setResizable(true);
+		window.setResizable(false);
 		window.setSize(flappyblock.WINDOW_WIDTH, flappyblock.WINDOW_HEIGHT);
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		window.setVisible(true);
 	}
 
