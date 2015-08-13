@@ -1,5 +1,4 @@
 package ba.bitcamp.gui;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -7,13 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Vector;
-
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileSystemView;
@@ -40,33 +37,11 @@ public class GUI extends JFrame {
 		Vector<String> v = new Vector<>();
 		
 		list.setBackground(Color.LIGHT_GRAY.brighter());
-		list.setSelectionBackground(Color.DARK_GRAY.brighter());
+		list.setSelectionBackground(Color.DARK_GRAY.brighter().brighter());
 		
 		list.setListData(v);
 		
-		list.setSelectionModel(new DefaultListSelectionModel() {
-			private static final long serialVersionUID = -7993440837834986171L;
-			@Override
-			public void setSelectionInterval(int index0, int index1) {
-				if (index0 == index1) {
-					if (isSelectedIndex(index0)) {
-						removeSelectionInterval(index0, index0);
-						return;
-					}
-				}
-				super.setSelectionInterval(index0, index1);
-			}
-			@Override
-			public void addSelectionInterval(int index0, int index1) {
-				if (index0 == index1) {
-					if (isSelectedIndex(index0)) {
-						removeSelectionInterval(index0, index0);
-						return;
-					}
-					super.addSelectionInterval(index0, index1);
-				}
-			}
-		});
+		list.setSelectionModel(new SelectionModel());
 		
 		v.addElement(f1.getName());
 		v.addElement(f2.getName());
@@ -98,6 +73,9 @@ public class GUI extends JFrame {
 							File selectedFile = downloadChooser.getSelectedFile();
 						}
 					}
+				}else{
+					JOptionPane.showMessageDialog(mainPanel, "Please select a file !", "No file selected", JOptionPane.INFORMATION_MESSAGE);
+					
 				}
 			}
 		});
@@ -119,6 +97,7 @@ public class GUI extends JFrame {
 
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setVisible(true);
 
 	}
