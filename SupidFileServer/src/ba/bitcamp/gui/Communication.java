@@ -10,15 +10,12 @@ import java.net.Socket;
 public class Communication{
 	
 	
-	 static Socket socket;
-	 static BufferedReader reader;
-	 static BufferedWriter writer;
+	private static Socket socket;
+	private static ObjectOutputStream output;
 	 
 	 public static void connectToServer(String ip, int port){
 		 try {
 			socket = new Socket(ip, port);
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -26,7 +23,10 @@ public class Communication{
 	 }
 	 public static void sendMessage(Msg message){
 		 try {
-			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			 output = new ObjectOutputStream(socket.getOutputStream());
+			 output.writeObject(message);
+			 output.flush();
+			 output.close();
 		
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -34,7 +34,9 @@ public class Communication{
 		 
 	 }
 	 
-	 
+	 public static Socket getSocket(){
+		 return socket;
+	 }
 	 
 
 }

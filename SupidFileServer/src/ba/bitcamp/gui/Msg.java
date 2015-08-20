@@ -1,8 +1,11 @@
 package ba.bitcamp.gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Msg {
+public class Msg implements Serializable{
+	
+	private static final long serialVersionUID = 5334749667698349845L;
 	public static final int LOGIN = 1;
 	public static final int REGISTER = 2;
 	public static final int UPLOAD = 3;

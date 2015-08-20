@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -12,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class Register extends JFrame {
 	private static final long serialVersionUID = -7794879240594124323L;
@@ -29,9 +32,21 @@ public class Register extends JFrame {
 	private String password = "";
 	private String email = "";
 	private ArrayList<String>msgList = new ArrayList<>();
+	private static Socket registerSocket;
 
 	public Register() {
-		setSize(400, 200);
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			e1.printStackTrace();
+		}
+		setSize(400, 150);
 		setTitle("REGISTER");
 
 		setLayout(new BorderLayout());
@@ -64,10 +79,14 @@ public class Register extends JFrame {
 						JOptionPane.showMessageDialog(mainPanel, "Please fill in the empty fields",
 								"Information missing", JOptionPane.ERROR_MESSAGE);
 					} else {
+						registerSocket = Communication.getSocket();
 						msgList.add(username);
 						msgList.add(password);
 						msgList.add(email);
-
+						Msg register = new Msg(Msg.REGISTER, msgList);
+						Communication.sendMessage(register);
+						JOptionPane.showMessageDialog(mainPanel, "Hello: "+username + ", Thank you for registering.",
+								"Registration succesfull", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 						new GUI();
 					}
